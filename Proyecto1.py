@@ -181,11 +181,11 @@ def gestionDeTransportePorEmpresas():
             f = open("Transporte.txt","r")
             cedula = f.readlines()
             if cedula_empresa in "".join(cedula):
-                print("Ese número de cédula ya existe")#Se verifica si ya existe ese número de cédula
+                print("Ese número de cédula ya existe")
                 gestionDeTransportePorEmpresas()
                 f.close()
                 nombre_marca=input("Agregue el nombre de la marca""\n")
-                if len(nombre_empresa)> 0 and nombre_empresa.isdigit()==False:
+                if len(nombre_marca)> 0 and nombre_marca.isdigit()==False:
                     modelo=input("Agreque el modelo del transporte""\n")
                     if len(modelo)> 0:
                         return print("Se ha guardado correctamente")+ gestionDeTransportePorEmpresas()
@@ -203,6 +203,9 @@ def gestionDeTransportePorEmpresas():
                                     empresa=f.readlines
                                     if empresa in "".join(empresa):
                                         print("Se han guardados todos los datos correctamente.")+ gestionDeTransportePorEmpresas()
+                                        datos_empresa=cedula_empresa+","+nombre_marca+","+modelo+","+año+","+VIP+","+Clase_Normal+","+Clase_economica
+                                        return anexarContenidoArchivo("Viajes.txt",datos_empresa)
+                                        return menu()
                                         return menu()
                                     else:
                                         print("La cantidad de asientos deben ser números y no debe ir vacío")+ gestionDeTransportePorEmpresas()
@@ -215,9 +218,36 @@ def gestionDeTransportePorEmpresas():
                     else:
                         print("El modelo no debe ir vacío")+ gestionDeTransportePorEmpresas()
                 else:
-                    return print("La cédula no existe")+ gestionDeTransportePorEmpresas()
+                    return print("La cédula ya existe")+ gestionDeTransportePorEmpresas()
     else:
       return print("la placa deben ser números")+ gestionDeTransportePorEmpresas()
+
+def gestionDeViajeMenu():
+    print("")
+    print("Bienvenido a gestión de viajes ¿Qué desea hacer?")
+    print("")
+    print("1.Guardar viaje")
+    print("2.Modificar vieja")
+    print("3.Eliminar viaje")
+    print("4.Mostrar todas los viajes")
+    print("5.Volver a menú principal")
+    print("6.Volver a menú administrativo")
+    print("")
+    opcion=input("Ingrese su opción ")
+    print("")
+    if opcion=="1":
+        return gestionDeViaje()
+    elif opcion=="2":
+        return modificarViaje()
+    elif opcion=="3":
+        return EliminarViaje()
+    elif opcion=="4":
+        return verTodosLosViajes()
+    elif opcion=="5":
+        return menu()
+    elif opcion=="6":
+        return menuAdministrativo()
+
     
 from random import randint
 n=randint(1,100)
@@ -259,6 +289,61 @@ def gestionDeViaje():
         return print("La ciudad de salida no puede ir en blanco. Digite su lugar de llegada")+gestionDeViaje()
     
 
+"""
+nombre: modificar empresa
+función que hace que el usuario pueda modificar los datos de una empresa.
+"""
+def modificarViaje():
+    global guardar
+    guardar=''
+    num_cedula=input("Digite el número de cédula")
+    f = open("Viajes.txt","r")
+    if num_cedula != '':
+        for line in f:
+            if num_cedula in line:
+                nuevos_datos=line.split(",")
+                nuevo_nombre=input("Ingrese el nuevo nombre""\n")
+                nueva_ubicacion=input("Ingrese la nueva ubicación")
+                nuevos_datos[2]=nuevo_nombre
+                nuevos_datos[3]=nueva_ubicacion
+                datos_editados=",".join(nuevos_datos)
+                guardar += datos_editados
+            else: guardar+=line
+        file.close()
+        return escribirArchivo("Empresas.txt",guardar)
+    else:
+        print("No puede dejar valores en blanco")
+        ModificarContacto()
+
+"""
+nombre: Ver todas los viajes
+función que devuelve todos los viajes.
+"""
+def verTodosLosViaje():#función hecha para ver todos los empresas
+    file = open("Viajes.txt","r")
+    print ("Sus viajes son:")
+    print("\n")
+    for line in file:
+        print(line)
+    file.close()
+    menu()
+    
+"""
+nombre: Eliminar viaje
+función que elimina un viaje
+"""
+def EliminarViaje():
+    global guardar
+    guardar=''
+    num_cedula=input("Digite el número de cédula")
+    file = open("Viajes.txt","r")
+    for line in file:
+        if num_cedula in line:
+            guardar += ''
+        else: guardar+=line
+    file.close()
+    return escribirArchivo("Viajes.txt",guardar)
+####################################################################################################################
 def escribirArchivo(archivo, mensaje):
     f = open (archivo,'w')
     f.write(mensaje)
