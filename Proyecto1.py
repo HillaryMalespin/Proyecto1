@@ -44,7 +44,7 @@ def menuAdministrativo():
     elif opcion=="2":
         return gestionDeTransportePorEmpresas()
     elif opcion=="3":
-        return "Hola3"
+        return gestionDeTransportePorEmpresas()
     elif opcion=="4":
         return "Hola4"
     elif opcion=="5":
@@ -143,7 +143,7 @@ def modificarEmpresa():
 nombre: Ver todas las empresas
 función que devuelve todas las empresas.
 """
-def verTodasLasEmpresas():#función hecha para ver todos los contactos
+def verTodasLasEmpresas():#función hecha para ver todos los empresas
     file = open("Empresas.txt","r")
     print ("Sus empresas son:")
     print("\n")
@@ -175,10 +175,11 @@ función:
 def gestionDeTransportePorEmpresas():
     f=open("Transporte.txt","a")
     f.close()
+    cedula_empresa=input("Agregue el número de cédula de la persona sin espacios y con ceros ""\n")
     placa=input("Agregue el número de placa de la persona sin espacios""\n")
     if placa.isdigit()==True:#Verifico que la cédula sean números
             f = open("Transporte.txt","r")
-            placa = f.readlines()
+            cedula = f.readlines()
             if cedula_empresa in "".join(cedula):
                 print("Ese número de cédula ya existe")#Se verifica si ya existe ese número de cédula
                 gestionDeTransportePorEmpresas()
@@ -191,16 +192,16 @@ def gestionDeTransportePorEmpresas():
                         año=input("Dígite el año del transporte")
                         if año.isdigit()==True:
                             VIP=input("Agregue el numero de campos VIP que contiene el transporte")+ gestionDeTransportePorEmpresas()
-                            if VIP.isdigit() and VIP>0):
+                            if VIP.isdigit() and (VIP>0):
                                 Clase_Normal=input("Agregue el numero de campos de clase normal que contiene el transporte")+ gestionDeTransportePorEmpresas()
-                                if Clase_Normal.isdigit() and Clase_Normal>0):
+                                if Clase_Normal.isdigit() and (Clase_Normal>0):
                                     Clase_economica=input("Agregue el numero de campos de clase economica que contiene el transporte")+ gestionDeTransportePorEmpresas()
-                                    if Clase_economica.isdigit() and Clase_economica>0):
+                                    if Clase_economica.isdigit() and (Clase_economica>0):
                                         return input("Digite su empresa:")+ gestionDeTransportePorEmpresas()
                                         return verTodasLasEmpresas()
                                     f=open("Empresas.txt","r")
                                     empresa=f.readlines
-                                        if empresa in "".join(empresa)
+                                    if empresa in "".join(empresa):
                                         print("Se han guardados todos los datos correctamente.")+ gestionDeTransportePorEmpresas()
                                         return menu()
                                     else:
@@ -216,11 +217,46 @@ def gestionDeTransportePorEmpresas():
                 else:
                     return print("La cédula no existe")+ gestionDeTransportePorEmpresas()
     else:
-        return print("la placa deben ser números")+ gestionDeTransportePorEmpresas()
-
-def gestionDeViaje()
-
-
+      return print("la placa deben ser números")+ gestionDeTransportePorEmpresas()
+    
+from random import randint
+n=randint(1,100)
+n2=randint(1,500)
+Numero_de_viaje=n+n2
+def gestionDeViaje():
+    f=open("Viajes.txt","a")
+    f.close
+    print("Su numero de viaje es:")
+    return Numero_de_viaje
+    ciudad_salida=input("Digite el lugar de donde saldrá ""\n")+gestionDeViaje()
+    if len (ciudad_salida)>0:
+        Fecha_salida=input("Digite la fecha en la que sale""\n")+gestionDeViaje()
+        hora_salida=input("Digite la hora en la que sale""\n")+gestionDeViaje()
+        if len(Fecha_salida)> 0 and len (hora_salida)>0:
+            Ciudad_de_llegada=input("Agregue el destino al que desea llegar""\n")+gestionDeViaje()
+            if len(Ciudad_de_llegada)>0:
+                Fecha_llegada=input("Digite la fecha en la que sale""\n")+gestionDeViaje()
+                hora_llegada=input("Digite la hora en la que sale""\n")+gestionDeViaje()
+                if len(Fecha_llegada)> 0 and len (hora_llegada)>0:
+                    return verTodasLasEmpresas()
+                    empresaYtransporte=input("digite la empresa y transporte que desee")+gestionDeViaje()
+                    monto= print(Clase_economica, Clase_Normal, VIP)+gestionDeViaje()
+                    monto_pagar=input("Digite cual clase desea pagar")+gestionDeViaje()
+                    if len(monto_pagar)>0:
+                            return ("Su viaje a sido guardado")
+                            datos_viaje=Numero_de_viaje+","+ciudad_salida+","+Fecha_salida+","+hora_salida+","+Ciudad_de_llegada+","+Fecha_llegada+","+hora_llegada+","+empresaYtransporte+","+monto_pagar
+                            return anexarContenidoArchivo("Viajes.txt",datos_viaje)
+                            return menu()
+                    else:
+                            return print("El monto no puede ir en blanco")+gestionDeViaje()
+                else:
+                    return print("La fecha y hora no pueden ir vacías. Digite su fecha y hora de salida")+gestionDeViaje()
+            else:
+                return print("La ciudad de llegada no puede ir en blanco. Digite su lugar de llegada")+gestionDeViaje()
+        else:
+            return print("La fecha y hora no pueden ir vacías. Digite su fecha y hora de llegada")+gestionDeViaje()
+    else:
+        return print("La ciudad de salida no puede ir en blanco. Digite su lugar de llegada")+gestionDeViaje()
     
 
 def escribirArchivo(archivo, mensaje):
@@ -229,7 +265,11 @@ def escribirArchivo(archivo, mensaje):
     f.close()
     print("Se ha guardado la nueva información")
     menu()
-                
+
+def anexarContenidoArchivo(archivo, mensaje):
+    f = open (archivo,'a')
+    f.write(mensaje)
+    f.close()           
     
     
     
