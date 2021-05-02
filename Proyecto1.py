@@ -44,7 +44,7 @@ def menuAdministrativo():
     elif opcion=="2":
         return gestionDeTransportePorEmpresas()
     elif opcion=="3":
-        return gestionDeTransportePorEmpresas()
+        return gestionDeViajeMenu()
     elif opcion=="4":
         return "Hola4"
     elif opcion=="5":
@@ -88,6 +88,8 @@ nombre: incluir empresas
 El usuario será capaz de incluir una empresa que no haya sido registrada.
 """
 def incluirEmpresas():
+    f=open("Empresas.txt","a")
+    f.close()
     cedula_empresa=input("Agregue el número de cédula de la persona sin espacios y con ceros ""\n")
     if cedula_empresa.isdigit()==True:#Verifico que la cédula sean números
         if (len(cedula_empresa))==9:#Verifico que la cédula sean nueve dígitos
@@ -103,6 +105,8 @@ def incluirEmpresas():
                     Ubicación_Empresa=input("Agregue la ubicación de la empresa""\n")
                     if len(Ubicación_Empresa)> 0 and Ubicación_Empresa.isdigit()==False:
                         return print("Se ha guardado correctamente")+ gestionDeEmpresas()
+                        datos_empresa=cedula_empresa+","+nombre_empresa+","+Ubicación_Empresa+"\n"
+                        return anexarContenidoArchivo("Empresas.txt",datos_empresa)#Procede a guardar los datos en el archvio
                     else:
                         print("La ubicación no puede estar vacía ni se numeros")+incluirEmpresas()
                 else:
@@ -343,6 +347,128 @@ def EliminarViaje():
         else: guardar+=line
     file.close()
     return escribirArchivo("Viajes.txt",guardar)
+
+
+def ReservaciónDeViaje():
+    f=open("Reservaciones.txt","a")
+    f.close()
+    print("Bienvenido/a a reservación de viaje")
+    print("")
+    return Numero_viaje
+    return verTodasLasEmpresas()
+    return Fecha_salida
+    return Fecha_llegada
+    identificador= input("Seleccione uno de los identificadores")
+    if identificador==Numero_viaje:
+        return anexarContenidoArchivo("Reservaciones.txt", Numero_viaje)
+        f = open (archivo,'a')
+        f.write(mensaje)
+        f.close()
+    elif identificador==verTodasLasEmpresas:
+        return anexarContenidoArchivo("Reservaciones.txt", verTodasLasEmpresas)
+        f = open (archivo,'a')
+        f.write(mensaje)
+        f.close()
+    elif identificador==Fecha_salida:
+        return anexarContenidoArchivo("Reservaciones.txt", Fecha_salida)
+        f = open (archivo,'a')
+        f.write(mensaje)
+        f.close()
+    elif identificador==Fecha_llegada:
+        return anexarContenidoArchivo("Reservaciones.txt", Fecha_llegada)
+        f = open (archivo,'a')
+        f.write(mensaje)
+        f.close()
+        return ReservaciónDeViaje_Aux()
+    else:
+        print("El identificador debe ser algunos de los brindados anteriormente")
+
+
+def ReservaciónDeViaje_Aux():
+    f=open("Reservaciones.txt","a")
+    f.close()
+    nombre= input("Ingrese su nombre completo")
+    if isinstance (nombre,str):
+        Asientos=input(int("Digite la cantidad de asientos que desea"))
+        f=open("Reservaciones.txt","a")
+        f.close()
+        return gestionDeViaje()
+        print (Numero_de_viaje+","+ciudad_salida+","+Fecha_salida+","+hora_salida+","+Ciudad_de_llegada+","+Fecha_llegada+","+hora_llegada+","+empresaYtransporte+","+monto_pagar)
+        
+
+"""
+Nombre: Consultar el historial de reservaciones.
+Función que atiende consultas sobre el historial de reservaciones.
+"""
+def menuFiltro():
+    print("Bienvenido/a al historial de reservación")
+    print("")
+    print("¿Por cuál filtro desea byscar la información?")
+    print("")
+    print("1.Rango de fecha de salida")
+    print("2.Rango de fecha de entrada")
+    print("3.Rango de fecha de reservación")
+    print("4.Lugar de salida y entrada")
+    opcion=input("Ingrese su opción ")#Aquí tomamos lo que quiere hacer el usuario
+    print("")
+    if opcion=="1":
+        return "hola"
+    elif opcion=="2":
+        return "Ha digitado 2"
+    elif opcion=="3":
+        return print("Que pase un buen día")
+    elif opcion=="3":
+        return print("Que pase un buen día")
+    else:
+        print("Debe digitar un número de la lista")
+        menu()
+"""
+"""
+def estadisticaDeViaje():
+    return verTodosLosViaje()
+
+"""
+"""
+def opcionesGenerales():
+    print ("Bienvenido al menú de opciones generales ¿Qué desea hacer?")
+    print("")
+    print("1.Consulta de viajes")
+    print("2.Reservación de viajes")
+    print("3.Cancelación de reservación")
+    print("4.Salir")
+    print("")
+    opcion=input("Ingrese su opción ")#Aquí tomamos lo que quiere hacer el usuario
+    if opcion=="1":
+        return menuAdministrativo()
+    elif opcion=="2":
+        return "Ha digitado 2"
+    elif opcion=="3":
+        return print("Que pase un buen día")
+    elif opcion=="3":
+        return print("Que pase un buen día")
+    else:
+        print("Debe digitar un número de la lista")
+        menu()
+
+def consultaDeViajes():
+    return verTodosLosViaje()
+
+def cancelacionDeReserva():
+    f=open("Reservaciones.txt","a")
+    f.close()
+
+
+#def salir():
+    
+
+
+
+
+
+
+
+
+
 ####################################################################################################################
 def escribirArchivo(archivo, mensaje):
     f = open (archivo,'w')
