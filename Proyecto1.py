@@ -6,7 +6,7 @@ Cuenta con opción de salida.
 def menu():
     f=open("Empresas.txt","a")
     f.close()
-    print ("Bienvenido al menú principal ¿Qué desea hacer?")
+    print ("Bienvenido/a al menú principal ¿Qué desea hacer?")
     print("")
     print("1.Opciones Administrativa")
     print("2.Opciones de usuario normal")
@@ -28,7 +28,7 @@ funcion que demuestra las funciones administrativas
 """
 def menuAdministrativo():
     print("")
-    print ("Bienvenido al menú administrativo ¿Qué desea hacer?")
+    print ("Bienvenido/a al menú administrativo ¿Qué desea hacer?")
     print("")
     print("1.Gestión de empresas")
     print("2.Gestión de transporte por empresa")
@@ -59,7 +59,7 @@ Tambien hay opcion de mostrar todas las empresas y volver a los menú anteriores
 """
 def gestionDeEmpresas():
     print("")
-    print("Bienvenido a gestión de empresas ¿Qué desea hacer?")
+    print("Bienvenido/a a gestión de empresas ¿Qué desea hacer?")
     print("")
     print("1.Incluir empresa")
     print("2.Modificar empresa")
@@ -88,6 +88,7 @@ nombre: incluir empresas
 El usuario será capaz de incluir una empresa que no haya sido registrada.
 """
 def incluirEmpresas():
+    flag=False
     f=open("Empresas.txt","a")
     f.close()
     cedula_empresa=input("Agregue el número de cédula de la persona sin espacios y con ceros ""\n")
@@ -99,22 +100,27 @@ def incluirEmpresas():
                 print("Ese número de cédula ya existe")#Se verifica si ya existe ese número de cédula
                 incluirEmpresas()
                 f.close()
-            else:#En este bloque se verifica que ningun dato esté vacío.
+            else:
                 nombre_empresa=input("Agregue el nombre de la empresa""\n")
-                if len(nombre_empresa)> 0 and nombre_empresa.isdigit()==False:
-                    Ubicación_Empresa=input("Agregue la ubicación de la empresa""\n")
-                    if len(Ubicación_Empresa)> 0 and Ubicación_Empresa.isdigit()==False:
-                        return print("Se ha guardado correctamente")+ gestionDeEmpresas()
-                        datos_empresa=cedula_empresa+","+nombre_empresa+","+Ubicación_Empresa+"\n"
-                        return anexarContenidoArchivo("Empresas.txt",datos_empresa)#Procede a guardar los datos en el archvio
+                if (len(nombre_empresa))>0:#En este bloque se verifica que ningun dato esté vacío.
+                    if len(nombre_empresa)> 0 and nombre_empresa.isdigit()==False:
+                        Ubicación_Empresa=input("Agregue la ubicación de la empresa""\n")
+                        if len(Ubicación_Empresa)> 0 and Ubicación_Empresa.isdigit()==False:
+                            flag=True
+                            datos_empresa=cedula_empresa+","+nombre_empresa+","+Ubicación_Empresa+"\n"
+                            print("")
+                            print("Empresa guardada")
+                            return anexarContenidoArchivo("Empresas.txt",datos_empresa)+ gestionDeEmpresas()#Procede a guardar los datos en el archvio
+                        else:
+                            print("La ubicación no puede estar vacía ni se numeros")+incluirEmpresas()
                     else:
-                        print("La ubicación no puede estar vacía ni se numeros")+incluirEmpresas()
+                        return print("El nombre no puede ser vacio y no puede contener números")+ incluirEmpresas()
                 else:
-                    return print("El nombre no puede ser vacio y no puede contener números")+ incluirEmpresas()
+                    return print("La cédula debe de tener 9 dígitos")+incluirEmpresas()
         else:
-            return print("La cédula debe de tener 9 dígitos")+incluirEmpresas()
+            print("Debe contener los ceros")+incluirEmpresas()
     else:
-        return print("la cédula deben ser números")+incluirEmpresas()
+        print("La cedula solo deben ser numeros")+incluirEmpresas()
 
 
 """
@@ -137,7 +143,7 @@ def modificarEmpresa():
                 datos_editados=",".join(nuevos_datos)
                 guardar += datos_editados
             else: guardar+=line
-        file.close()
+        f.close()
         return escribirArchivo("Empresas.txt",guardar)
     else:
         print("No puede dejar valores en blanco")
@@ -155,6 +161,13 @@ def verTodasLasEmpresas():#función hecha para ver todos los empresas
         print(line)
     file.close()
     menu()
+
+def verTodasLasEmpresas2():#función hecha para ver todos los empresas
+    file = open("Empresas.txt","r")
+    print("\n")
+    for line in file:
+        print(line)
+    file.close()
     
 """
 nombre: Eliminar Empresa
@@ -188,6 +201,7 @@ def gestionDeTransportePorEmpresas():
                 print("Ese número de cédula ya existe")
                 gestionDeTransportePorEmpresas()
                 f.close()
+            else:
                 nombre_marca=input("Agregue el nombre de la marca""\n")
                 if len(nombre_marca)> 0 and nombre_marca.isdigit()==False:
                     modelo=input("Agreque el modelo del transporte""\n")
@@ -206,11 +220,9 @@ def gestionDeTransportePorEmpresas():
                                     f=open("Empresas.txt","r")
                                     empresa=f.readlines
                                     if empresa in "".join(empresa):
-                                        print("Se han guardados todos los datos correctamente.")+ gestionDeTransportePorEmpresas()
                                         datos_empresa=cedula_empresa+","+nombre_marca+","+modelo+","+año+","+VIP+","+Clase_Normal+","+Clase_economica
-                                        return anexarContenidoArchivo("Viajes.txt",datos_empresa)
-                                        return menu()
-                                        return menu()
+                                        print("Se han guardados todos los datos correctamente.")+ menu()
+                                        return anexarContenidoArchivo("Viajes.txt",datos_empresa)+menu()
                                     else:
                                         print("La cantidad de asientos deben ser números y no debe ir vacío")+ gestionDeTransportePorEmpresas()
                                 else:
@@ -254,34 +266,39 @@ def gestionDeViajeMenu():
 
     
 from random import randint
-n=randint(1,100)
+n=randint(1,500)
 n2=randint(1,500)
 Numero_de_viaje=n+n2
 def gestionDeViaje():
     f=open("Viajes.txt","a")
     f.close
-    print("Su numero de viaje es:")
-    return Numero_de_viaje
-    ciudad_salida=input("Digite el lugar de donde saldrá ""\n")+gestionDeViaje()
+    ciudad_salida=input("Digite el lugar de donde saldrá ""\n")
     if len (ciudad_salida)>0:
-        Fecha_salida=input("Digite la fecha en la que sale""\n")+gestionDeViaje()
-        hora_salida=input("Digite la hora en la que sale""\n")+gestionDeViaje()
+        Fecha_salida=input("Digite la fecha en la que sale""\n")
+        hora_salida=input("Digite la hora en la que sale""\n")
         if len(Fecha_salida)> 0 and len (hora_salida)>0:
-            Ciudad_de_llegada=input("Agregue el destino al que desea llegar""\n")+gestionDeViaje()
+            Ciudad_de_llegada=input("Agregue el destino al que desea llegar""\n")
             if len(Ciudad_de_llegada)>0:
-                Fecha_llegada=input("Digite la fecha en la que sale""\n")+gestionDeViaje()
-                hora_llegada=input("Digite la hora en la que sale""\n")+gestionDeViaje()
+                Fecha_llegada=input("Digite la fecha en la que sale""\n")
+                hora_llegada=input("Digite la hora en la que sale""\n")
                 if len(Fecha_llegada)> 0 and len (hora_llegada)>0:
-                    return verTodasLasEmpresas()
-                    empresaYtransporte=input("digite la empresa y transporte que desee")+gestionDeViaje()
-                    monto= print(Clase_economica, Clase_Normal, VIP)+gestionDeViaje()
-                    monto_pagar=input("Digite cual clase desea pagar")+gestionDeViaje()
-                    if len(monto_pagar)>0:
+                        file = open("Empresas.txt","r")
+                        print("\n")
+                        for line in file:
+                            print(line)
+                        file.close()
+                        print("Estas son las empresas con las que contamos")
+                        empresaYtransporte=input("digite la empresa y transporte que desee")
+                        monto= print(Clase_economica, Clase_Normal, VIP)
+                        monto_pagar=input("Digite cual clase desea pagar")
+                        if len(monto_pagar)>0:
                             return ("Su viaje a sido guardado")
                             datos_viaje=Numero_de_viaje+","+ciudad_salida+","+Fecha_salida+","+hora_salida+","+Ciudad_de_llegada+","+Fecha_llegada+","+hora_llegada+","+empresaYtransporte+","+monto_pagar
                             return anexarContenidoArchivo("Viajes.txt",datos_viaje)
+                            print("Su numero de viaje es:")
+                            return Numero_de_viaje
                             return menu()
-                    else:
+                        else:
                             return print("El monto no puede ir en blanco")+gestionDeViaje()
                 else:
                     return print("La fecha y hora no pueden ir vacías. Digite su fecha y hora de salida")+gestionDeViaje()
@@ -323,7 +340,7 @@ def modificarViaje():
 nombre: Ver todas los viajes
 función que devuelve todos los viajes.
 """
-def verTodosLosViaje():#función hecha para ver todos los empresas
+def verTodosLosViajes():#función hecha para ver todos los empresas
     file = open("Viajes.txt","r")
     print ("Sus viajes son:")
     print("\n")
@@ -331,7 +348,7 @@ def verTodosLosViaje():#función hecha para ver todos los empresas
         print(line)
     file.close()
     menu()
-    
+
 """
 nombre: Eliminar viaje
 función que elimina un viaje
@@ -458,7 +475,8 @@ def cancelacionDeReserva():
     f.close()
 
 
-#def salir():
+def salir():
+    print("Que tenga un buen día")
     
 
 
@@ -480,7 +498,13 @@ def escribirArchivo(archivo, mensaje):
 def anexarContenidoArchivo(archivo, mensaje):
     f = open (archivo,'a')
     f.write(mensaje)
-    f.close()           
+    f.close()
+
+def leerArchivoReadLinesFor(archivo):
+    f = open (archivo,'r')
+    for mensaje in f.readlines():
+        print(mensaje)
+    f.close()    
     
     
     
